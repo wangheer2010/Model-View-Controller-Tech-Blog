@@ -1,13 +1,34 @@
 const User = require('./User');
-const Gallery = require('./Gallery');
-const Painting = require('./Painting');
+const Gallery = require('./Post');
+const Painting = require('./Comment');
 
-Gallery.hasMany(Painting, {
-  foreignKey: 'gallery_id',
+User.hasMany(Post, {
+  foreignKey: 'user_id'
 });
 
-Painting.belongsTo(Gallery, {
-  foreignKey: 'gallery_id',
+Post.belongsTo(User, {
+  foreignKey: 'user_id'
 });
 
-module.exports = { User, Gallery, Painting };
+// if you delete a user, all comment related to them will be deleted
+Comment.belongsTo(User, {
+  foreignKey: 'user_id',
+  onDelete: 'cascade'
+});
+
+Comment.belongsTo(Post, {
+  foreignKey: 'post_id',
+  onDelete: 'cascade'
+});
+
+User.hasMany(Comment, {
+  foreignKey: 'user_id',
+  onDelete: 'cascade'
+});
+
+Post.hasMany(Comment, {
+  foreignKey: 'post_id',
+  onDelete: 'cascade'
+});
+
+module.exports = { User, Post, Comment };
