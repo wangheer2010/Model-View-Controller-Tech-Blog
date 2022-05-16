@@ -32,12 +32,12 @@ router.get('/', withAuth, async(req, res) => {
             ]
         }
         );
-    const posts = await dbPostData.map(
-        post => post.get({ plain: true })
-        );
-    res.render('dashboard', {
-        posts, loggedIn: true 
-    });
+        const posts = await dbPostData.map(
+            post => post.get({ plain: true })
+            );
+        res.render('dashboard', {
+            posts, loggedIn: true 
+        });
     } catch(err) {
         console.log(err);
         res.status(500).json(err);
@@ -84,7 +84,5 @@ router.get('/edit/:id', withAuth, async(req, res) => {
 router.get('/new', (req, res) => {
     res.render('new-post');
 });
-
-
 
 module.exports = router;
