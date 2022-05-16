@@ -5,7 +5,7 @@ const { Post, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
 // Get all posts
-router.get('/', (req, res) => {
+router.get('/', withAuth, async(req, res) => {
     try {
         const dbPostData = await Post.findAll({
             where: {
@@ -32,7 +32,7 @@ router.get('/', (req, res) => {
             ]
         }
         );
-    const posts = dbPostData.map(
+    const posts = await dbPostData.map(
         post => post.get({ plain: true })
         );
     res.render('dashboard', {
@@ -44,7 +44,7 @@ router.get('/', (req, res) => {
     }
 });
 
-router.get('/edit/:id', withAuth, (req, res) => {
+router.get('/edit/:id', withAuth, async(req, res) => {
     try {
         const dbPostData = await Post.findOne({
             where: {
@@ -73,7 +73,7 @@ router.get('/edit/:id', withAuth, (req, res) => {
             res.status(404).json({ message: 'No post found with this id' });
             return;
         }
-        const post = dbPostData.get({ plain: true });
+        const post = await dbPostData.get({ plain: true });
         res.render('edit-post', { post, loggedIn: true });
     } catch(err) {
             console.log(err);

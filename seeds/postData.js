@@ -1,4 +1,4 @@
-const { Post} = require('../models');
+const { Post } = require('../models');
 
 const postdata = [
   {
@@ -15,6 +15,11 @@ const postdata = [
     title: 'Sand + Sea = Summer',
     content: 'S_Photo',
     user_id: 2,
+  },  
+  {
+    title: 'ahhhhhh',
+    content: 'wo sha le',
+    user_id: 3,
   },
 ];
 

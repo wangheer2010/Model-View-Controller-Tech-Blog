@@ -1,6 +1,6 @@
 const sequelize = require('../config/connection');
 
-const seedComment = require('./commentData');
+const seedComments = require('./commentData');
 const seedPosts = require('./postData');
 const seedUsers = require('./userData');
 
@@ -13,7 +13,7 @@ const seedAll = async () => {
 
   await seedPosts();
 
-  await seedComment();
+  await seedComments();
   
   process.exit(0);
 };

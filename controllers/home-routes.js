@@ -1,26 +1,39 @@
+const sequelize = require('../config/connection');
 const router = require('express').Router();
-const { Gallery, Painting } = require('../models');
+const { Post, User, Comment } = require('../models');
 // Import the custom middleware
 const withAuth = require('../utils/auth');
 
-// GET all galleries for homepage
+// GET all postsfor homepage
 router.get('/', async (req, res) => {
   try {
-    const dbGalleryData = await Gallery.findAll({
+    const postData = await Post.findAll({
+      attributes: [
+        'id',
+        'title',
+        'content',
+        'created_at'
+    ],
       include: [
         {
-          model: Painting,
-          attributes: ['filename', 'description'],
+          model: Comment,
+          attributes:  ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+          include: {
+            model: User,
+            attributes: ['username']
+        }
         },
+        {
+          model: User,
+          attributes: ['username']
+        }
       ],
     });
-
-    const galleries = dbGalleryData.map((gallery) =>
-      gallery.get({ plain: true })
+    const posts = await postData.map((post) =>
+      post.get({ plain: true })
     );
-
     res.render('homepage', {
-      galleries,
+      posts,
       loggedIn: req.session.loggedIn,
     });
   } catch (err) {
@@ -29,55 +42,92 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET one gallery
-// Use the custom middleware before allowing the user to access the gallery
-router.get('/gallery/:id', withAuth, async (req, res) => {
+router.get('/posts-commments', withAuth, async (req, res) => {
   try {
-    const dbGalleryData = await Gallery.findByPk(req.params.id, {
-      include: [
+    const dbPostData = await Post.findOne({
+      where: {
+          id: req.params.id
+      },
+      attributes: [
         {
           model: Painting,
           attributes: [
             'id',
+            'content',
             'title',
-            'artist',
-            'exhibition_date',
-            'filename',
-            'description',
+            'created_at'
           ],
         },
       ],
+      include: [{
+        model: Comment,
+        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+        include: {
+          model: User,
+          attributes: ['username']
+      }},
+    {
+      model: User,
+      attributes: ['username']
+    }]
     });
-
-    const gallery = dbGalleryData.get({ plain: true });
-    res.render('gallery', { gallery, loggedIn: req.session.loggedIn });
+    if (!dbPostData) {
+        res.status(404).json({ message: 'No post found with this id' });
+        return;
+    }
+    const post = await dbPostData.get({ plain: true });
+    res.render('post', { post, loggedIn: req.session.loggedIn });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
   }
 });
 
-// GET one painting
-// Use the custom middleware before allowing the user to access the painting
-router.get('/painting/:id', withAuth, async (req, res) => {
+router.get('/post/:id', withAuth, async (req, res) => {
   try {
-    const dbPaintingData = await Painting.findByPk(req.params.id);
-
-    const painting = dbPaintingData.get({ plain: true });
-
-    res.render('painting', { painting, loggedIn: req.session.loggedIn });
-  } catch (err) {
+    const dbPostData = await Post.findOne({
+      where: {
+          id: req.params.id
+      },
+      attributes: [
+          'id',
+          'content',
+          'title',
+          'created_at'
+      ],
+      include: [{
+              model: Comment,
+              attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+              include: {
+                  model: User,
+                  attributes: ['username']
+              }
+          },
+          {
+              model: User,
+              attributes: ['username']
+          }
+      ]
+    });
+    if (!dbPostData) {
+        res.status(404).json({ message: 'No post found with this id' });
+        return;
+    }
+    const post = await dbPostData.get({ plain: true });
+    res.render('post', { post, loggedIn: req.session.loggedIn });
+  }
+catch(err) {
     console.log(err);
     res.status(500).json(err);
-  }
+}
 });
+
 
 router.get('/login', (req, res) => {
   if (req.session.loggedIn) {
     res.redirect('/');
     return;
   }
-
   res.render('login');
 });
 
