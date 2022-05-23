@@ -14,13 +14,10 @@
     <nav>
       <a href="/">Home</a>
       {{#if loggedIn}}
-      <a class="link" href="/dashboard">Dashboard</a>
-      {{else}}
-      <a href="/login">Dashboard</a>
-      {{/if}}
-      {{#if loggedIn}}
+      <a class="link" href="/dashboard/new">Dashboard</a>
       <button id="logout" class="btn-no-style">Logout</button>
       {{else}}
+      <a href="/login">Dashboard</a>
       <a href="/login">Login</a>
       {{/if}}
     </nav>
