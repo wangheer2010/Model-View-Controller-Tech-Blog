@@ -2,18 +2,18 @@ const { Post } = require('../models');
 
 const postdata = [
   {
-    title: 'Blossoming Apricot',
-    content: 'LedyX',
+    title: 'title 1',
+    content: 'content 1',
     user_id: 1,
   },
   {
-    title: 'Cosmos Flowers',
-    content: 'WStudio',
+    title: 'title 2',
+    content: 'content 2',
     user_id: 1,
   },
   {
-    title: 'Sand + Sea = Summer',
-    content: 'S_Photo',
+    title: 'title 3',
+    content: 'content 3',
     user_id: 2,
   },  
   {

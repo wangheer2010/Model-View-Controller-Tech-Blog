@@ -132,7 +132,7 @@ img {
 
 .card-body {
   font-size: 1.4rem;
-  text-align: center;
+  text-align:justify;
   font-weight: bold;
 }
 
@@ -152,5 +152,5 @@ img {
   display: flex;
   flex-flow: column wrap;
   align-content: flex-start;
-  align-items: center;
+  align-items:flex-start;
 }
