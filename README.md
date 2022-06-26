@@ -13,7 +13,19 @@
   ## Description
   This is a tech blog app, enabling people to post posts, view/edit/delete posts, and add comments.
   It requires logged in before doing the things mentioned above.
+  - Here are several screenshots of the app
+  1. This is the login page
+  ![login](assets/login.png)
+  1. This is the dashboard page after login, when you don't have any post
+  ![dashempty](assets/dashbord.png)
 
+  1. This is the how we add new post
+  ![addpost](assets/addpost.png)
+  1. This is how our new post looks like after we click on confirm
+  ![dashunempty](assets/unempty-dashboard.png)
+  1. This is how our home page looks like after we posted the post
+  ![homeunempty](assets/unemptyhomepage.png)
+  
 ## Installation
 Just go to our deployment link and you will be ready to start
   
@@ -25,9 +37,6 @@ Just go to our deployment link and you will be ready to start
 
 
 ## Deployment
-  - Here is several screenshots of the app
-
-  ![screenshot](assets/screenshots.png)
 
   - [Link to the application](https://chen-tech-blog-app.herokuapp.com/)
 
