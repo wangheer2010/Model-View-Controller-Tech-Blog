@@ -5,9 +5,8 @@ const { Post, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
 // Get all posts
-router.get('/', withAuth, async(req, res) => {
-    try {
-        const dbPostData = await Post.findAll({
+router.get('/',withAuth, (req, res) => {
+        Post.findAll({
             where: {
                 user_id: req.session.user_id
             },
@@ -23,7 +22,7 @@ router.get('/', withAuth, async(req, res) => {
                     include: {
                         model: User,
                         attributes: ['username']
-                    }
+                    },
                 },
                 {
                     model: User,
@@ -31,18 +30,20 @@ router.get('/', withAuth, async(req, res) => {
                 }
             ]
         }
-        );
-        const posts = await dbPostData.map(
+        )
+        .then ((dbPostData) => { 
+            const posts = dbPostData.map(
             post => post.get({ plain: true })
             );
-        res.render('dashboard', {
-            posts, loggedIn: true 
+            res.render('dashboard', {
+                posts, loggedIn: true 
+            })
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
         });
-    } catch(err) {
-        console.log(err);
-        res.status(500).json(err);
-    }
-});
+    });
 
 router.get('/edit/:id', withAuth, async(req, res) => {
     try {

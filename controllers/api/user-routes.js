@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../models');
+const { User } = require('../../models');
 
 // CREATE new user
 router.post('/', async (req, res) => {
@@ -12,7 +12,8 @@ router.post('/', async (req, res) => {
 
     req.session.save(() => {
       req.session.loggedIn = true;
-
+      req.session.user_id = dbUserData.id;
+      req.session.username = dbUserData.username;
       res.status(200).json(dbUserData);
     });
   } catch (err) {
@@ -47,8 +48,9 @@ router.post('/login', async (req, res) => {
     }
 
     req.session.save(() => {
+      req.session.user_id = dbUserData.id;
+      req.session.username = dbUserData.username;
       req.session.loggedIn = true;
-
       res
         .status(200)
         .json({ user: dbUserData, message: 'You are now logged in!' });
@@ -71,20 +73,6 @@ router.post('/logout', (req, res) => {
 });
 
 // get all
-router.get('/', async (req, res) => {
-  try {
-      const dbUserData = await User.findAll({
-        attributes: { exclude: ['[password'] }
-    });
-    req.session.save(() => {
-      req.session.loggedIn = true;
-      res.status(200).json(dbUserData);
-  });
-  } catch(err) {
-          console.log(err);
-          res.status(500).json(err);
-      }
-});
 
 router.get('/', async (req, res) => {
   try {
