@@ -25,9 +25,9 @@ Just go to our deployment link and you will be ready to start
 
 
 ## Deployment
-  - Here is the screenshot of the app
+  - Here is several screenshots of the app
 
   ![screenshot](assets/screenshots.png)
 
-  - [Link to the application]()
+  - [Link to the application](https://chen-tech-blog-app.herokuapp.com/)
 
