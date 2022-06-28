@@ -17,7 +17,7 @@
   1. This is the login page
   ![login](assets/login.png)
   1. This is the dashboard page after login, when you don't have any post
-  ![dashempty](assets/dashbord.png)
+  ![dashempty](assets/dashboard.png)
 
   1. This is the how we add new post
   ![addpost](assets/addpost.png)
